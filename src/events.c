@@ -13,10 +13,10 @@ void handle_change_menu(game_t *game, int direction)
         game->current_menu += 1;
     else if (direction == -1)
         game->current_menu -= 1;
-    if (game->current_menu < 0)
-        game->current_menu = 0;
-    else if (game->current_menu > 2)
-        game->current_menu = 2;
+    if (game->current_menu > MENU_4)
+        game->current_menu = MENU_1;
+    else if (game->current_menu == NO_MENU)
+        game->current_menu = MENU_4;
 }
 
 void handle_key_pressed_events(game_t *game)

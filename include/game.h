@@ -26,6 +26,7 @@
 
     // Data
     enum menus {
+        NO_MENU = -1,
         MENU_1,
         MENU_2,
         MENU_3,
