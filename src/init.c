@@ -7,6 +7,33 @@
 
 #include "game.h"
 
+sfSprite *create_sprite(sfTexture *texture, sfIntRect rect,
+    sfVector2f position, sfVector2f scale)
+{
+    sfSprite *sprite = NULL;
+
+    if (!texture)
+        return NULL;
+    if (!(sprite = sfSprite_create()))
+        return NULL;
+    sfSprite_setPosition(sprite, position);
+    sfSprite_setScale(sprite, scale);
+    sfSprite_setTexture(sprite, texture, sfFalse);
+    sfSprite_setTextureRect(sprite, rect);
+    return sprite;
+}
+
+particle_t *create_particle_list(sfTexture *texture,
+    sfIntRect rect, sfVector2f pos, sfVector2f scale)
+{
+    particle_t *list = malloc(sizeof(particle_t));
+
+    list->sprite = create_sprite(texture, rect, pos, scale);
+    list->next = NULL;
+    list->previous = NULL;
+    return list;
+}
+
 fonts_t *init_fonts(void)
 {
     fonts_t *fonts = malloc(sizeof(fonts_t));
@@ -116,6 +143,36 @@ menus_t *init_menus(sfFont *font)
     return menus;
 }
 
+particle_t *add_node(particle_t *list, sfTexture *texture,
+    sfIntRect rect, sfVector2f pos, sfVector2f scale)
+{
+    particle_t *head = list;
+    particle_t *node = malloc(sizeof(particle_t));
+
+    while (list->next != NULL)
+        list = list->next;
+    list->next = node;
+    node->sprite = create_sprite(texture, rect, pos, scale);
+    node->next = NULL;
+    node->previous = list;
+    return head;
+}
+
+void init_list(game_t *game)
+{
+    game->texture_list = sfTexture_createFromFile("assets/rain.png", NULL);
+    sfIntRect rect = {0, 0, 3, 5};
+    sfVector2f pos = {0, 0};
+    sfVector2f scale = {5, 5};
+    game->list = create_particle_list(game->texture_list, rect, pos, scale);
+    for (int i = 0; i < 1000; i++) {
+        pos.x = rand() % (1920);
+        pos.y = rand() % (1080);
+        game->list = add_node(game->list, game->texture_list, rect, pos, scale);
+    }
+
+}
+
 game_t *init_game(void)
 {
     game_t *game = malloc(sizeof(game_t));
@@ -131,5 +188,8 @@ game_t *init_game(void)
     game->navbar = init_navbar(game->fonts->arial);
     game->menus = init_menus(game->fonts->arial);
     game->current_menu = MENU_1;
+
+    game->clock_list = sfClock_create();
+    init_list(game);
     return game;
 }

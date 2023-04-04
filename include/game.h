@@ -33,6 +33,12 @@
         MENU_4
     };
 
+    typedef struct particle {
+        sfSprite *sprite;
+        struct particle *next;
+        struct particle *previous;
+    } particle_t;
+
     typedef struct button_s {
         sfRectangleShape *background;
         sfText *text;
@@ -69,6 +75,9 @@
         navbar_t *navbar;
         menus_t *menus;
         enum menus current_menu;
+        particle_t *list;
+        sfTexture *texture_list;
+        sfClock *clock_list;
     } game_t;
 
 

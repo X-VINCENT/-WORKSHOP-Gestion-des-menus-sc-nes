@@ -21,7 +21,7 @@ OBJ				=			$(SRC:.c=.o)
 
 CC 				=			gcc
 RM 				=			rm -rf
-CFLAGS 			+= 			-Iinclude -Wall -Wextra -Werror
+CFLAGS 			+= 			-Iinclude -Wall -Wextra
 LDFLAGS			+=			-lcsfml-graphics -lcsfml-window -lcsfml-system -lcsfml-audio
 
 all: $(NAME)
