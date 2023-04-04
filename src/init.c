@@ -116,6 +116,28 @@ menus_t *init_menus(sfFont *font)
     return menus;
 }
 
+void init_character(game_t *game)
+{
+    game->character = sfRectangleShape_create();
+    sfRectangleShape_setFillColor(game->character, sfGreen);
+    sfRectangleShape_setSize(game->character, (sfVector2f){100, 100});
+    sfRectangleShape_setPosition(game->character, (sfVector2f){160, 120});
+    sfRectangleShape_setOrigin(game->character, (sfVector2f){50, 50});
+    game->character_size = 50;
+    game->character_speed = 50;
+}
+
+void init_hitbox(game_t *game)
+{
+    game->map_texture = sfTexture_createFromFile("assets/bg.png", NULL);
+    game->map = sfSprite_create();
+    game->map_texture_top = sfTexture_createFromFile("assets/bg_top.png", NULL);
+    game->map_top = sfSprite_create();
+    sfSprite_setTexture(game->map, game->map_texture, sfTrue);
+    sfSprite_setTexture(game->map_top, game->map_texture_top, sfTrue);
+    game->hitbox = sfImage_createFromFile("assets/hitbox.png");
+}
+
 game_t *init_game(void)
 {
     game_t *game = malloc(sizeof(game_t));
@@ -130,6 +152,8 @@ game_t *init_game(void)
     game->fonts = init_fonts();
     game->navbar = init_navbar(game->fonts->arial);
     game->menus = init_menus(game->fonts->arial);
+    init_character(game);
+    init_hitbox(game);
     game->current_menu = MENU_1;
     return game;
 }

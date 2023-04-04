@@ -69,6 +69,14 @@
         navbar_t *navbar;
         menus_t *menus;
         enum menus current_menu;
+        sfImage *hitbox;
+        sfRectangleShape *character;
+        int character_speed;
+        sfTexture *map_texture;
+        sfTexture *map_texture_top;
+        sfSprite *map;
+        sfSprite *map_top;
+        int character_size;
     } game_t;
 
 

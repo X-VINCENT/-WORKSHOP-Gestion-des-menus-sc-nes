@@ -48,10 +48,18 @@ void display_navbar(game_t *game, navbar_t *navbar)
     display_button(game, navbar->button_4);
 }
 
+void display_character(game_t *game)
+{
+    sfRenderWindow_drawRectangleShape(game->window, game->character, NULL);
+}
+
 void display(game_t *game)
 {
     sfRenderWindow_clear(game->window, sfBlack);
-    display_navbar(game, game->navbar);
-    display_menus(game, game->menus);
+    //display_navbar(game, game->navbar);
+    //display_menus(game, game->menus);
+    sfRenderWindow_drawSprite(game->window, game->map, NULL);
+    display_character(game);
+    sfRenderWindow_drawSprite(game->window, game->map_top, NULL);
     sfRenderWindow_display(game->window);
 }

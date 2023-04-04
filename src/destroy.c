@@ -53,5 +53,11 @@ void destroy_game(game_t *game)
     destroy_fonts(game->fonts);
     destroy_navbar(game->navbar);
     destroy_menus(game->menus);
+    sfImage_destroy(game->hitbox);
+    sfRectangleShape_destroy(game->character);
+    sfSprite_destroy(game->map);
+    sfTexture_destroy(game->map_texture);
+    sfTexture_destroy(game->map_texture_top);
+    sfSprite_destroy(game->map_top);
     free(game);
 }

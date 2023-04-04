@@ -19,17 +19,51 @@ void handle_change_menu(game_t *game, int direction)
         game->current_menu = MENU_4;
 }
 
+void handle_move_character(game_t *game)
+{
+    sfVector2f pos = sfRectangleShape_getPosition(game->character);
+    sfVector2f new_pos = {0, 0};
+    sfColor color = {0, 0, 0, 0};
+
+    if (game->event->key.code == sfKeyLeft || game->event->key.code == sfKeyQ) {
+        color = sfImage_getPixel(game->hitbox, pos.x - game->character_size - game->character_speed, pos.y);
+        new_pos = (sfVector2f){pos.x - game->character_speed, pos.y};
+    }
+    else if (game->event->key.code == sfKeyRight || game->event->key.code == sfKeyD) {
+        color = sfImage_getPixel(game->hitbox, pos.x + game->character_size + game->character_speed, pos.y);
+        new_pos = (sfVector2f){pos.x + game->character_speed, pos.y};
+    } else if (game->event->key.code == sfKeyUp || game->event->key.code == sfKeyZ) {
+        color = sfImage_getPixel(game->hitbox, pos.x, pos.y - game->character_size - game->character_speed);
+        new_pos = (sfVector2f){pos.x, pos.y - game->character_speed};
+    } else if (game->event->key.code == sfKeyDown || game->event->key.code == sfKeyS) {
+        color = sfImage_getPixel(game->hitbox, pos.x, pos.y + game->character_size + game->character_speed);
+        new_pos = (sfVector2f){pos.x, pos.y + game->character_speed};
+    }
+    if (color.r == 255 && color.g == 255 && color.b == 255)
+        return;
+    sfRectangleShape_setPosition(game->character, new_pos);
+}
+
 void handle_key_pressed_events(game_t *game)
 {
     switch(game->event->key.code) {
         case sfKeyEscape:
             sfRenderWindow_close(game->window);
-            break;
+            break;/* 
         case sfKeyLeft:
-            handle_change_menu(game, -1);
+            //handle_change_menu(game, -1);
             break;
         case sfKeyRight:
-            handle_change_menu(game, 1);
+            //handle_change_menu(game, 1); */
+        case sfKeyRight:
+        case sfKeyLeft:
+        case sfKeyUp:
+        case sfKeyDown:
+        case sfKeyQ:
+        case sfKeyD:
+        case sfKeyZ:
+        case sfKeyS:
+            handle_move_character(game);
             break;
         default:
             break;
