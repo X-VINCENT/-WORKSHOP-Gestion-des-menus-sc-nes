@@ -34,6 +34,8 @@ void display_menus(game_t *game, menus_t *menus)
         case MENU_4:
             display_menu(game, menus->menu_4);
             break;
+        default:
+            break;
     }
 }
 
